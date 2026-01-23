@@ -1,0 +1,76 @@
+/* Custom styles for Antifragile Visual Companion */
+
+:root {
+  /* Antifragile-themed color palette */
+  --sl-color-accent-low: #1a365d;
+  --sl-color-accent: #2563eb;
+  --sl-color-accent-high: #60a5fa;
+
+  /* Custom colors for diagrams reference */
+  --color-fragile: #ffcdd2;
+  --color-robust: #fff9c4;
+  --color-antifragile: #c8e6c9;
+  --color-concept: #e1bee7;
+  --color-warning: #ffccbc;
+  --color-highlight: #b3e5fc;
+}
+
+/* Mermaid diagram styling */
+.mermaid {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: var(--sl-color-bg-nav);
+  border-radius: 8px;
+}
+
+/* Enhanced card styling */
+.card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Quote styling */
+blockquote {
+  border-left: 4px solid var(--sl-color-accent);
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  background: var(--sl-color-bg-nav);
+  padding: 1rem 1rem 1rem 1.5rem;
+  border-radius: 0 8px 8px 0;
+}
+
+/* Table enhancements */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: var(--sl-color-bg-nav);
+}
+
+/* Key takeaways styling */
+.key-takeaways {
+  background: linear-gradient(135deg, var(--sl-color-bg-nav), var(--sl-color-bg));
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+}
+
+/* Triad visualization colors */
+.triad-fragile {
+  color: #c62828;
+}
+
+.triad-robust {
+  color: #f9a825;
+}
+
+.triad-antifragile {
+  color: #2e7d32;
+}
