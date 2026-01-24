@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="40" height="40">
+  <defs>
+    <linearGradient id="brainGradientLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3182ce;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#805ad5;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Brain outline -->
+  <path d="M50 10 C25 10 15 30 15 45 C15 55 20 65 30 70 C30 80 40 90 50 90 C60 90 70 80 70 70 C80 65 85 55 85 45 C85 30 75 10 50 10"
+        fill="url(#brainGradientLight)" opacity="0.9"/>
+  <!-- Neural connections -->
+  <g stroke="#1a365d" stroke-width="1.5" fill="none" opacity="0.7">
+    <path d="M35 35 Q50 30 65 35"/>
+    <path d="M30 50 Q50 45 70 50"/>
+    <path d="M35 65 Q50 60 65 65"/>
+    <circle cx="35" cy="35" r="3" fill="#1a365d"/>
+    <circle cx="65" cy="35" r="3" fill="#1a365d"/>
+    <circle cx="30" cy="50" r="3" fill="#1a365d"/>
+    <circle cx="70" cy="50" r="3" fill="#1a365d"/>
+    <circle cx="35" cy="65" r="3" fill="#1a365d"/>
+    <circle cx="65" cy="65" r="3" fill="#1a365d"/>
+    <circle cx="50" cy="45" r="4" fill="#1a365d"/>
+  </g>
+  <!-- Central division -->
+  <path d="M50 15 L50 85" stroke="#1a365d" stroke-width="1" opacity="0.5"/>
+</svg>
