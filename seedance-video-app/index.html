@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Video Learning Lab - Seedance 2.0</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>AI Video Learning Lab</h1>
+        <p class="subtitle">Generate Educational Videos with Seedance 2.0 | ByteDance AI</p>
+        <p class="api-status" id="apiStatus">API Status: Not Connected</p>
+    </header>
+
+    <main>
+        <!-- API Configuration -->
+        <section class="config-section">
+            <h2>API Configuration</h2>
+            <div class="config-form">
+                <div class="form-group">
+                    <label for="apiKey">Seedance 2.0 API Key</label>
+                    <div class="input-row">
+                        <input type="password" id="apiKey" placeholder="Enter your Seedance API key">
+                        <button id="toggleKey" class="btn btn-sm" title="Show/hide key">Show</button>
+                    </div>
+                    <p class="form-hint">Your key is stored locally in this browser session only.</p>
+                </div>
+                <div class="form-group">
+                    <label for="apiBase">API Base URL</label>
+                    <select id="apiBase">
+                        <option value="https://api.seedance.ai/v2">Official Seedance API (api.seedance.ai)</option>
+                        <option value="https://api.wavespeed.ai/v1">WaveSpeed AI (wavespeed.ai)</option>
+                        <option value="custom">Custom endpoint...</option>
+                    </select>
+                    <input type="text" id="apiBaseCustom" class="hidden" placeholder="https://your-api-endpoint.com/v2">
+                </div>
+            </div>
+        </section>
+
+        <!-- Generation Mode Tabs -->
+        <section class="generator-section">
+            <h2>Video Generator</h2>
+            <div class="mode-tabs">
+                <button class="tab active" data-mode="text">Text to Video</button>
+                <button class="tab" data-mode="image">Image to Video</button>
+            </div>
+
+            <!-- Text-to-Video Panel -->
+            <div class="tab-panel active" id="panel-text">
+                <div class="form-group">
+                    <label for="promptSelect">Educational Prompt Templates</label>
+                    <select id="promptSelect">
+                        <option value="">-- Select a template or write your own --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="promptText">Video Prompt</label>
+                    <textarea id="promptText" rows="5" placeholder="Describe the educational video you want to generate...&#10;&#10;Tip: Be specific about visuals, motion, and educational context. Longer, detailed prompts produce better results."></textarea>
+                    <div class="char-count"><span id="charCount">0</span> / 2000</div>
+                </div>
+            </div>
+
+            <!-- Image-to-Video Panel -->
+            <div class="tab-panel" id="panel-image">
+                <div class="form-group">
+                    <label>Reference Image</label>
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-placeholder" id="uploadPlaceholder">
+                            <p class="upload-icon">+</p>
+                            <p>Click or drag an image here</p>
+                            <p class="form-hint">PNG, JPG, or WebP. Max 10MB.</p>
+                        </div>
+                        <img id="previewImage" class="hidden" alt="Preview">
+                        <button id="clearImage" class="btn btn-sm btn-danger hidden">Remove</button>
+                    </div>
+                    <input type="file" id="imageInput" accept="image/png,image/jpeg,image/webp" class="hidden">
+                </div>
+                <div class="form-group">
+                    <label for="imgPromptText">Motion / Context Prompt</label>
+                    <textarea id="imgPromptText" rows="3" placeholder="Describe how the image should animate or what context to add..."></textarea>
+                </div>
+            </div>
+
+            <!-- Video Parameters -->
+            <div class="params-grid">
+                <div class="form-group">
+                    <label for="resolution">Resolution</label>
+                    <select id="resolution">
+                        <option value="480p">480p (Fast)</option>
+                        <option value="720p" selected>720p (Balanced)</option>
+                        <option value="1080p">1080p (HD)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="duration">Duration</label>
+                    <select id="duration">
+                        <option value="5">5 seconds</option>
+                        <option value="10" selected>10 seconds</option>
+                        <option value="15">15 seconds</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="aspectRatio">Aspect Ratio</label>
+                    <select id="aspectRatio">
+                        <option value="16:9" selected>16:9 (Landscape)</option>
+                        <option value="9:16">9:16 (Vertical)</option>
+                        <option value="1:1">1:1 (Square)</option>
+                        <option value="4:3">4:3 (Classic)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="audioSync">Audio</label>
+                    <select id="audioSync">
+                        <option value="auto" selected>Auto-generate</option>
+                        <option value="none">No audio</option>
+                    </select>
+                </div>
+            </div>
+
+            <button id="generateBtn" class="btn btn-primary btn-lg">Generate Video</button>
+        </section>
+
+        <!-- Job Status & Output -->
+        <section class="output-section hidden" id="outputSection">
+            <h2>Generation Output</h2>
+
+            <!-- Progress Bar -->
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-header">
+                    <span class="progress-status" id="progressStatus">Submitting...</span>
+                    <span class="progress-time" id="progressTime">0s</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p class="progress-detail" id="progressDetail">Sending request to Seedance 2.0...</p>
+            </div>
+
+            <!-- Video Player -->
+            <div class="video-container hidden" id="videoContainer">
+                <video id="videoPlayer" controls>
+                    <source id="videoSource" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-actions">
+                    <a id="downloadLink" class="btn btn-sm" download="seedance-video.mp4">Download MP4</a>
+                    <button id="regenerateBtn" class="btn btn-sm">Regenerate</button>
+                </div>
+            </div>
+
+            <!-- Error Display -->
+            <div class="error-container hidden" id="errorContainer">
+                <p class="error-title">Generation Failed</p>
+                <p class="error-message" id="errorMessage"></p>
+                <button id="retryBtn" class="btn btn-sm">Retry</button>
+            </div>
+        </section>
+
+        <!-- Job History -->
+        <section class="history-section">
+            <h2>Recent Generations</h2>
+            <div id="historyList" class="history-list">
+                <p class="empty-state">No videos generated yet. Create your first educational video above.</p>
+            </div>
+        </section>
+
+        <!-- About -->
+        <section class="about-section">
+            <h2>About Seedance 2.0</h2>
+            <div class="about-content">
+                <div class="about-grid">
+                    <div class="about-card">
+                        <h3>Model</h3>
+                        <p>ByteDance's Seedance 2.0 is a diffusion-based video generation model with a dual-branch transformer architecture for synchronized audio-video output.</p>
+                    </div>
+                    <div class="about-card">
+                        <h3>Capabilities</h3>
+                        <ul>
+                            <li>Text-to-video and image-to-video</li>
+                            <li>Up to 1080p resolution, 4-15s clips</li>
+                            <li>Native audio with lip-sync (8+ languages)</li>
+                            <li>Physics-aware motion synthesis</li>
+                        </ul>
+                    </div>
+                    <div class="about-card">
+                        <h3>Educational Use</h3>
+                        <p>This app generates short explainer videos from learning content prompts, turning static concepts into dynamic visual experiences for AI-native agile learners.</p>
+                    </div>
+                </div>
+                <p class="about-note">Released February 10, 2026. API access via official Seedance endpoint or third-party providers. See <a href="https://seed.bytedance.com/en/seedance2_0" target="_blank" rel="noopener">ByteDance Seed</a> for details.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>AI Video Learning Lab | Part of the AI-Native Agile Learning Platform</p>
+        <p>Powered by Seedance 2.0 (ByteDance) | For Educational Purposes</p>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
