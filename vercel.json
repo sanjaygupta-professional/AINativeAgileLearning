@@ -1,0 +1,9 @@
+{
+  "buildCommand": "",
+  "outputDirectory": ".",
+  "framework": null,
+  "rewrites": [
+    { "source": "/sentiment", "destination": "/metal-sentiment-app/index.html" },
+    { "source": "/video", "destination": "/seedance-video-app/index.html" }
+  ]
+}
