@@ -1,0 +1,20 @@
+{
+  "name": "antifragile-visual",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "A visual learning companion for Antifragile by Nassim Nicholas Taleb",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.32.0",
+    "astro": "^5.1.0",
+    "astro-mermaid": "^1.2.0",
+    "mermaid": "^11.4.0",
+    "sharp": "^0.33.0"
+  }
+}
